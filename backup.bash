@@ -1,22 +1,5 @@
 #!/bin/bash
 
-# Crontab configuration
-# Example of job definition:
-# .---------------- minute (0 - 59)
-# |  .------------- hour (0 - 23)
-# |  |  .---------- day of month (1 - 31)
-# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
-# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
-# |  |  |  |  |
-# *  *  *  *  *  user command to be executed
-#
-# 0 1 * * * /home/opt/backup/backup.bash --daily --content /home/opt/backup/backup.list /external/backup/kango-linux >> /home/opt/backup/backup.log
-# 0 3 * * 0 /home/opt/backup/backup.bash --weekly --content /home/opt/backup/backup.list /external/backup/kango-linux >> /home/opt/backup/backup.log
-# 0 5 1 * * /home/opt/backup/backup.bash --monthly --content /home/opt/backup/backup.list /external/backup/kango-linux >> /home/opt/backup/backup.log
-#
-# To force a manual run
-# sudo /home/opt/backup/backup.bash --daily --content /home/opt/backup/backup.list /external/backup/kango-linux
-
 # Initialisation
 MODE="daily"
 BACKUP_ROOT_DIR=""
