@@ -8,6 +8,7 @@ ARGS=("$@")
 MAX_DAILY_BACKUPS=7
 MAX_WEEKLY_BACKUPS=5
 MAX_MONTHLY_BACKUPS=6
+MAX_YEARLY_BACKUPS=5
 
 # Termination function
 function terminate(){
@@ -40,6 +41,8 @@ function command_line(){
                 MODE="weekly"
             elif [ ${arg} == "--monthly" ]; then
                 MODE="monthly"
+            elif [ ${arg} == "--yearly" ]; then
+                MODE="yearly"
             elif [ ${arg} == "--content" ]; then
                 let i++
                 CONTENT=${ARGS[${i}]}
@@ -192,6 +195,26 @@ function montly_backup(){
     echo "Monthly backup successful."
 }
 
+# Yearly backup
+function yearly_backup(){
+    # Initialisations
+    echo "Starting a yearly backup in ${BACKUP_YEARLY_DIR_NOW}..."
+    
+    # Copy the latest monthly backup
+    latest_backup=`ls -d ${BACKUP_ROOT_DIR}/*_monthly | tail -1`
+    echo -n "Hard-linking monthly backup... "
+    start_time=$(date +%s)
+    cp -al ${latest_backup} ${BACKUP_YEARLY_DIR_NOW}
+    end_time=$(date +%s)
+    echo "done ($(($end_time - $start_time)) sec)"
+    
+    # Only keep MAX_YEARLY_BACKUPS
+    purging_backup "${BACKUP_ROOT_DIR}/*_yearly" ${MAX_YEARLY_BACKUPS}
+    
+    # End of backup
+    echo "Yearly backup successful."
+}
+
 # Main program
 function main(){
     # Intialisation
@@ -208,6 +231,7 @@ function main(){
     BACKUP_DAILY_DIR_NOW=${BACKUP_ROOT_DIR}/${TIMESTAMP}_daily
     BACKUP_WEEKLY_DIR_NOW=${BACKUP_ROOT_DIR}/${TIMESTAMP}_weekly
     BACKUP_MONTHLY_DIR_NOW=${BACKUP_ROOT_DIR}/${TIMESTAMP}_monthly
+    BACKUP_YEARLY_DIR_NOW=${BACKUP_ROOT_DIR}/${TIMESTAMP}_yearly
 
     # Do backup
     if [ ${MODE} == "daily" ]; then
@@ -215,7 +239,9 @@ function main(){
     elif [ ${MODE} == "weekly" ]; then
         weekly_backup
     elif [ ${MODE} == "monthly" ]; then
-        montly_backup    
+        montly_backup
+    elif [ ${MODE} == "yearly" ]; then
+        yearly_backup  
     fi
     check_errors $?
     

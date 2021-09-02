@@ -32,6 +32,7 @@ It is best to run the script with crontab:
 0 1 * * * /path/to/script/backup.bash --daily --content /path/to/list/backup/backup.list /destination >> /destination/backup.log
 0 3 * * 0 /path/to/script/backup.bash --weekly --content /path/to/list/backup.list /destination >> /destination/backup.log
 0 5 1 * * /path/to/script/backup.bash --monthly --content /path/to/list/backup.list /destination >> /destination/backup.log
+0 5 2 9 * /path/to/script/backup.bash --yearly --content /path/to/list/backup.list /destination >> /destination/backup.log
 ```
 
 In this example, daily backup is done every day at 1am, weekly backup is done 
@@ -43,6 +44,7 @@ You can configure the following variables in the script:
 MAX_DAILY_BACKUPS=7
 MAX_WEEKLY_BACKUPS=5
 MAX_MONTHLY_BACKUPS=6
+MAX_YEARLY_BACKUPS=5
 ```
 
 The variables configure how many backup are kept for each kind of backup. In 
@@ -93,8 +95,12 @@ character.
 
 I would recommand to back up the list of files to be backed up as well.
 
+You can save the crontab actions in a file `backup.crontab`. You can then update the crontab list by doing:
 
+```
+crontab backup.crontab
+```
 
-
+Any instruction not already present will be added to the list.
 
 
