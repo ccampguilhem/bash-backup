@@ -65,13 +65,17 @@ for example: `2020-05-04_01:00:01_daily`
 When a weekly backup is done, the latest daily backup is hardlinked to a 
 destination folder with a timestam, for example: `2020-05-10_03:00:01_weekly`.
 
-Finally, when a monthly backup is done, the latest weekly backup is hardlined 
+When a monthly backup is done, the latest weekly backup is hardlinked 
 to a destination folder with a timestamp, for example: 
 `2020-05-01_05:00:01_monthly`
 
+Finally, when a yearly backup is done, the latest monthly backup is hardlinked 
+to a destination folder with a timestamp, for example:
+`2020-10-02_05:00:01_yearly`
+
 In addition, each kind of backup ensures that a maximum number of folders are 
-stored as configured by `MAX_DAILY_BACKUPS`, `MAX_WEEKLY_BACKUPS` and 
-`MAX_MONTHLY_BACKUPS`.
+stored as configured by `MAX_DAILY_BACKUPS`, `MAX_WEEKLY_BACKUPS`, 
+`MAX_MONTHLY_BACKUPS` and `MAX_YEARLYLY_BACKUPS`.
 
 The backup list file is expected to have the following format:
 
@@ -95,7 +99,13 @@ character.
 
 I would recommand to back up the list of files to be backed up as well.
 
-You can save the crontab actions in a file `backup.crontab`. You can then update the crontab list by doing:
+You can save the crontab actions in a file `backup.crontab`:
+
+```
+crontab -l > backup.crontab
+```
+
+You can then update the crontab list by doing:
 
 ```
 crontab backup.crontab
